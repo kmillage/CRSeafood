@@ -20,10 +20,10 @@ priceplot <- ggplot() +
   theme_bw()+
   theme(panel.grid.minor.x=element_blank())+
   theme(panel.grid.minor.y=element_blank())+
-  theme(axis.text.y = element_text(size=24, margin = margin(0, 5, 0, 0)), axis.title.y = element_text(size=26, vjust=1, face = "bold", margin = margin(0, 20, 0, 0)))+
-  theme(axis.text.x = element_text(size=24, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=26, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
+  theme(axis.text.y = element_text(size=20, margin = margin(0, 5, 0, 0)), axis.title.y = element_text(size=22, vjust=1, face = "bold", margin = margin(0, 20, 0, 0)))+
+  theme(axis.text.x = element_text(size=20, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=22, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
   theme(legend.position = "none")+
-  theme(panel.border = element_rect(fill=NA,color="black", size=3, 
+  theme(panel.border = element_rect(fill=NA,color="black", size=2, 
                                     linetype="solid"))+
   scale_y_continuous(limits = c(3,6), breaks = c(3,3.5, 4, 4.5, 5, 5.5, 6))
 
@@ -55,10 +55,10 @@ catchesplot <- ggplot() +
   theme_bw()+
   theme(panel.grid.minor.x=element_blank())+
   theme(panel.grid.minor.y=element_blank())+
-  theme(axis.text.y = element_text(size=24, margin = margin(0, 5, 0, 0)), axis.title.y = element_text(size=26, vjust=1, face = "bold", margin = margin(0, 20, 0, 0)))+
-  theme(axis.text.x = element_text(size=24, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=26, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
+  theme(axis.text.y = element_text(size=20, margin = margin(0, 5, 0, 0)), axis.title.y = element_text(size=22, vjust=1, face = "bold", margin = margin(0, 20, 0, 0)))+
+  theme(axis.text.x = element_text(size=20, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=22, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
   theme(legend.position = "none")+
-  theme(panel.border = element_rect(fill=NA,color="black", size=3, 
+  theme(panel.border = element_rect(fill=NA,color="black", size=2, 
                                     linetype="solid"))+
   scale_x_continuous(breaks = c(1990, 1995, 2000, 2005, 2010, 2020, 2030, 2040, 2050))+
   scale_y_continuous(breaks = c(0,250, 500, 750, 1000, 1250, 1500))
@@ -76,13 +76,13 @@ obs_vs_pred_cpue_plot <- ggplot() +
   theme_bw()+
   theme(panel.grid.minor.x=element_blank())+
   theme(panel.grid.minor.y=element_blank())+
-  theme(axis.text.y = element_text(size=24, margin = margin(0, 5, 0, 0)), axis.title.y = element_text(size=26, vjust=1, face = "bold", margin = margin(0, 20, 0, 0)))+
-  theme(axis.text.x = element_text(size=24, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=26, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
+  theme(axis.text.y = element_text(size=20, margin = margin(0, 5, 0, 0)), axis.title.y = element_text(size=22, vjust=1, face = "bold", margin = margin(0, 20, 0, 0)))+
+  theme(axis.text.x = element_text(size=20, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=22, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
   theme(legend.position = "none")+
   theme(panel.border = element_rect(fill=NA,color="black", size=2, 
                                     linetype="solid"))+
-  scale_x_continuous(breaks = c(1990, 1995, 2000, 2005, 2010, 2020, 2030, 2040, 2050))+
-  scale_y_continuous(limits = c(0, 700), breaks = c(0, 100, 200, 300, 400,500,600,700))
+  scale_x_continuous(breaks = c(1990, 1995, 2000, 2005, 2010))+
+  scale_y_continuous(limits = c(0, 450), breaks = c(0, 100, 200, 300, 400))
 
 # Pella
 obs_vs_pred_cpue_plot_pella <- ggplot() +
@@ -272,25 +272,26 @@ biomass_profit_plot <- ggplot(model_results_summary_0.99)+
   #theme(legend.position = "none")
 
 # Biomass/cdp tradeoff plot for scenarios
-biomass_cdp_plot <- ggplot(model_results_summary_0.99)+
-  geom_point(aes(x =(last_biomass/1000), y = cdp_per_com), size = 5, alpha = 0.8, color = "grey")+
+biomass_cdp_plot <- ggplot(model_results_summary_0.8)+
+  geom_point(aes(x =(last_biomass/1000), y = cdp_per_com, color = gamma), size = 5, alpha = 0.8)+
   geom_point(aes(x =(last_biomass_bau/1000), y = cdp_bau), size = 6, color = "#187E85")+
-  geom_point(data = modsum_filtered, aes(x =(last_biomass/1000), y = cdp_per_com), size = 5, alpha = 0.8, color = "#FC6D68")+
+  labs(x="Snapper Biomass in 2050 (tons)", y ="Average CDP per Community (2013 $US)")+
+  #geom_point(data = modsum_filtered, aes(x =(last_biomass/1000), y = cdp_per_com), size = 5, alpha = 0.8, color = "#FC6D68")+
   #geom_point(aes(x =(bau_biomass_change/1000), y = 0), size = 8, color = "blue")+
   #scale_shape_discrete(range = c(4,12))+
-  #scale_color_continuous(low = "#6E0401", high = "#FC6D68", breaks = c(1, 0.5, 0.1))+
+  scale_color_continuous(low = "#6E0401", high = "#FC6D68", breaks = c(1, 0.5, 0.1))+
   #labs(x="Change in Biomass Relative to BAU (tons)", y ="Average CDP per Community ($)")+
   theme_bw()+
   theme(panel.grid.minor.x=element_blank())+
   theme(panel.grid.minor.y=element_blank())+
-  theme(axis.text.y = element_text(size=24, margin = margin(0, 7, 0, 0)), axis.title.y = element_blank())+
-  theme(axis.text.x = element_text(size=24, margin = margin(7, 0, 0, 0)), axis.title.x = element_text(size=26, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
+  theme(axis.text.y = element_text(size=20, margin = margin(0, 7, 0, 0)), axis.title.y = element_text(size=22, vjust=1, face = "bold", margin = margin(0, 10, 0, 0)))+
+  theme(axis.text.x = element_text(size=20, margin = margin(7, 0, 0, 0)), axis.title.x = element_text(size=22, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
   theme(legend.position = "none")+
-  theme(panel.border = element_rect(fill=NA,color="black", size=3, 
-                                    linetype="solid"))+
+  theme(panel.border = element_rect(fill=NA,color="black", size=2, 
+                                    linetype="solid"))
   #theme(legend.position = "none")+
-  scale_y_continuous(limits = c(0,1500), breaks = c(0, 500, 1000,1500))+
-scale_x_continuous(limits=c(0,2500), breaks = c(0, 500, 1000, 1500, 2000, 2500))
+  #scale_y_continuous(limits = c(0,1500), breaks = c(0, 500, 1000,1500))+
+#scale_x_continuous(limits=c(0,2500), breaks = c(0, 500, 1000, 1500, 2000, 2500))
 
 grid.arrange(biomass_profit_plot, biomass_cdp_plot, nrow = 2, ncol = 1)
 

@@ -37,7 +37,7 @@ catches <- read.csv('catches.csv', header=T, stringsAsFactors = F) %>%
 mean(catches$catch/1000)
 
 # CPUE data from Andy
-CPUE <- read.csv('CPUE2.csv', header=T, stringsAsFactors = F) %>%
+CPUE <- read.csv('CPUE.csv', header=T, stringsAsFactors = F) %>%
   ungroup() %>%
   select(-Trip.Num, -Date, -Captain, -Inpsector, -Location) %>%
   #filter(Obs.Type == 'Onboard') %>%
@@ -241,14 +241,15 @@ BAU_extend <- bau %>%
 
 scenario_values <- read.csv('scenarios.csv', header=T, stringsAsFactors = F) 
 
-scenario_values2 <- read.csv('scenarios2.csv', header=T, stringsAsFactors = F)
+scenario_values_0.99 <- read.csv('scenarios2.csv', header=T, stringsAsFactors = F)
+scenario_values_0.8 <- read.csv('scenarios2.csv', header=T, stringsAsFactors = F)
 
 #  create empty list to store outputs of each scenario run
 model_results<-list()
 
-for(a in 1:nrow(scenario_values2)){
+for(a in 1:nrow(scenario_values_0.8)){
   
-  temp <- scenario_model(par = log(bestpars), dat = cr_dat, effort = 10000, scenarios = as.numeric(scenario_values2[a,]), price = 4, delta = 0.8)
+  temp <- scenario_model(par = log(bestpars), dat = cr_dat, effort = 10000, scenarios = as.numeric(scenario_values_0.8[a,]), price = 4, delta = 0.8)
   
   model_results[[a]]<-temp
 } 
@@ -262,20 +263,20 @@ model_results_df <- ldply(model_results)
 ##### Selecting data for scenario trials (alpha = 0.99)
 
 
-model_results_0.99 <-  model_results_df %>%
+model_results_0.8 <-  model_results_df %>%
   #filter(gamma_start %in% c(0.1,0.5,1), alpha %in% c(0.99), lamda %in% c(0.03,0.06,0.1)) %>%
   mutate(profit_total = profit_u + profit_c) %>%
   left_join(bau_bio_profits, by = "Year") %>%
   group_by(scenario)
 
 # Discounting 5%
-model_results_0.99$dis <- NA
-model_results_0.99$dis_cdp <- NA
+model_results_0.8$dis <- NA
+model_results_0.8$dis_cdp <- NA
 
-for(i in 1:nrow(model_results_0.99)){
-  model_results_0.99$dis[i] <- model_results_0.99$profit[i]/((1+0.05)^(model_results_0.99$Year[i]-2013))
+for(i in 1:nrow(model_results_0.8)){
+  model_results_0.8$dis[i] <- model_results_0.8$profit[i]/((1+0.05)^(model_results_0.8$Year[i]-2013))
   
-  model_results_0.99$dis_cdp[i] <- model_results_0.99$cdp[i]/((1+0.05)^(model_results_0.99$Year[i]-2013))
+  model_results_0.8$dis_cdp[i] <- model_results_0.8$cdp[i]/((1+0.05)^(model_results_0.8$Year[i]-2013))
   
 }
 
@@ -310,7 +311,7 @@ model_results_yearaverage_100 <- model_results_0.99_100 %>%
 
 ### Summary by scenario 
 
-model_results_summary_0.99 <- model_results_0.99 %>%
+model_results_summary_0.8 <- model_results_0.8 %>%
   #filter(gamma_start %in% c(0.5,0.1,)) %>%
   group_by(scenario) %>%
   summarize(biomass_change_relativebau = (last(biomass)-last(bau_biomass)), 
@@ -326,8 +327,8 @@ model_results_summary_0.99 <- model_results_0.99 %>%
             cdp_per_com = averagecdp/(gamma*20),
             cdp_bau = 0)
 
-modsum_filtered <- model_results_0.99 %>%
-  filter(gamma_start %in% c(1)) %>%
+modsum_filtered <- model_results_0.8 %>%
+  filter(gamma_start %in% c(0.1)) %>%
   group_by(scenario) %>%
   summarize(biomass_change_relativebau = (last(biomass)-last(bau_biomass)), 
             last_biomass = last(biomass),
