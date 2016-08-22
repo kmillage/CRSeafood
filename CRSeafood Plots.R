@@ -107,19 +107,19 @@ grid.arrange(obs_vs_pred_cpue_plot, obs_vs_pred_cpue_plot_pella, nrow = 1, ncol 
 
 # Schaefer
 biomass_plot <- ggplot()+
+  geom_ribbon(data = best_fit, aes(Year, ymin = lowerbiomass/1000, ymax = upperbiomass/1000), alpha = 0.2, fill = "black")+
   geom_line(data = best_fit, aes(Year, biomass/1000), color = '#4E4E4E', size = 2) +
+  #geom_ribbon(data = model_results_yearaverage, aes(Year, ymin = (min_biomass/1000), ymax = (max_biomass/1000), group = gamma_start, fill = gamma_start), alpha = 0.3)+
+  geom_line(data = model_results_0.8_10, aes(x =Year, y = (biomass/1000), group = effortreduction, color = effortreduction), size = 2)+
   geom_line(data = bau, aes(Year, biomass/1000), color = "#187E85", size = 2)+
-  geom_ribbon(data = model_results_yearaverage, aes(Year, ymin = (min_biomass/1000), ymax = (max_biomass/1000), group = gamma_start, fill = gamma_start), alpha = 0.3)+
-  scale_fill_continuous(low = "#57275E", high = "#EDA3F9", breaks = c(0.1, 0.5, 1), name = "Percentage of Region Certified", labels = c("10%", "50%", "100%"))+
-  geom_line(data = model_results_yearaverage, aes(x =Year, y = (avg_biomass/1000), group = gamma_start, color = gamma_start), size = 2)+
-  scale_colour_continuous(low = "#57275E", high = "#EDA3F9", breaks = c(0.1, 0.5, 1), name = "Percentage of Region Certified", labels = c("10%", "50%", "100%"))+
-  facet_grid(gamma_start ~ ., scales = "free")+
+  scale_colour_continuous(low = "#6E0401", high = "#FC6D68", breaks = c(1, 0.8, 0.7, 0.5), name = "Effort Reduction", labels = c("None", "20%", "30%", "50%"))+
+  #facet_grid(gamma_start ~ ., scales = "free")+
   labs(x="Year", y ="Biomass (tons)")+
   theme_bw()+
   theme(panel.grid.minor.x=element_blank())+
   theme(panel.grid.minor.y=element_blank())+
-  theme(axis.text.y = element_text(size=24, margin = margin(0, 5, 0, 0)), axis.title.y = element_text(size=26, vjust=1, face = "bold", margin = margin(0, 10, 0, 0)))+
-  theme(axis.text.x = element_text(size=24, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=26, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
+  theme(axis.text.y = element_text(size=20, margin = margin(0, 5, 0, 0)), axis.title.y = element_blank())+
+  theme(axis.text.x = element_text(size=20, margin = margin(3, 0, 0, 0)), axis.title.x = element_blank())+
   theme(legend.position = "none")+
   theme(strip.background = element_blank())+
   theme(panel.border = element_rect(fill=NA,color="black", size=2, 
@@ -127,7 +127,48 @@ biomass_plot <- ggplot()+
   theme(legend.position = "none")+
   scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
 
+biomass_plot_2 <- ggplot()+
+  geom_ribbon(data = best_fit, aes(Year, ymin = lowerbiomass/1000, ymax = upperbiomass/1000), alpha = 0.2, fill = "black")+
+  geom_line(data = best_fit, aes(Year, biomass/1000), color = '#4E4E4E', size = 2) +
+  #geom_ribbon(data = model_results_yearaverage, aes(Year, ymin = (min_biomass/1000), ymax = (max_biomass/1000), group = gamma_start, fill = gamma_start), alpha = 0.3)+
+  geom_line(data = model_results_0.8_50, aes(x =Year, y = (biomass/1000), group = effortreduction, colour = effortreduction), size = 2)+
+  geom_line(data = bau, aes(Year, biomass/1000), color = "#187E85", size = 2)+
+  scale_colour_continuous(low = "#6E0401", high = "#FC6D68", breaks = c(1, 0.8, 0.7, 0.5), name = "Effort Reduction", labels = c("None", "20%", "30%", "50%"))+
+  #facet_grid(gamma_start ~ ., scales = "free")+
+  labs(x="Year", y ="Biomass (tons)")+
+  theme_bw()+
+  theme(panel.grid.minor.x=element_blank())+
+  theme(panel.grid.minor.y=element_blank())+
+  theme(axis.text.y = element_text(size=20, margin = margin(0, 5, 0, 0)), axis.title.y = element_blank())+
+  theme(axis.text.x = element_text(size=20, margin = margin(3, 0, 0, 0)), axis.title.x = element_blank())+
+  theme(legend.position = "none")+
+  theme(strip.background = element_blank())+
+  theme(panel.border = element_rect(fill=NA,color="black", size=2, 
+                                    linetype="solid"))+
+  scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
 
+biomass_plot_3 <- ggplot()+
+  geom_ribbon(data = best_fit, aes(Year, ymin = lowerbiomass/1000, ymax = upperbiomass/1000), alpha = 0.2, fill = "black")+
+  geom_line(data = best_fit, aes(Year, biomass/1000), color = '#4E4E4E', size = 2) +
+  #geom_ribbon(data = model_results_yearaverage, aes(Year, ymin = (min_biomass/1000), ymax = (max_biomass/1000), group = gamma_start, fill = gamma_start), alpha = 0.3)+
+  geom_line(data = model_results_0.8_100, aes(x =Year, y = (biomass/1000), group = effortreduction, color = effortreduction), size = 2)+
+  geom_line(data = bau, aes(Year, biomass/1000), color = "#187E85", size = 2)+
+  scale_colour_continuous(low = "#6E0401", high = "#FC6D68", breaks = c(1, 0.8, 0.7, 0.5), name = "Effort Reduction", labels = c("None", "20%", "30%", "50%"))+
+  #facet_grid(gamma_start ~ ., scales = "free")+
+  labs(x="Year", y ="Biomass (tons)")+
+  theme_bw()+
+  theme(panel.grid.minor.x=element_blank())+
+  theme(panel.grid.minor.y=element_blank())+
+  theme(axis.text.y = element_text(size=20, margin = margin(0, 5, 0, 0)), axis.title.y = element_blank())+
+  theme(axis.text.x = element_text(size=20, margin = margin(3, 0, 0, 0)), axis.title.x = element_text(size=22, vjust=1, face = "bold", margin = margin(10, 0, 0, 0)))+
+  theme(legend.position = "none")+
+  theme(strip.background = element_blank())+
+  theme(panel.border = element_rect(fill=NA,color="black", size=2, 
+                                    linetype="solid"))+
+  theme(legend.position = "none")+
+  scale_x_continuous(breaks = c(1990, 2000, 2010, 2020, 2030, 2040, 2050))
+
+grid.arrange(biomass_plot, biomass_plot_2, biomass_plot_3, nrow = 3, ncol = 1)
 # Pella
 biomass_plot_pella <- ggplot()+
   geom_ribbon(data = best_fit_pella, aes(Year,ymin = lowerbiomass, ymax = upperbiomass), alpha = 0.2, fill = "#002A66")+
