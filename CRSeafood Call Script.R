@@ -242,7 +242,7 @@ BAU_extend <- bau %>%
 scenario_values <- read.csv('scenarios.csv', header=T, stringsAsFactors = F) 
 
 scenario_values_0.99 <- read.csv('scenarios2.csv', header=T, stringsAsFactors = F)
-scenario_values_0.8 <- read.csv('scenarios2.csv', header=T, stringsAsFactors = F)
+scenario_values_0.8 <- read.csv('scenarios3.csv', header=T, stringsAsFactors = F)
 
 #  create empty list to store outputs of each scenario run
 model_results<-list()
@@ -280,13 +280,13 @@ for(i in 1:nrow(model_results_0.8)){
   
 }
 
-model_results_0.99_10 <- model_results_0.99 %>%
+model_results_0.8_10 <- model_results_0.8 %>%
   filter(gamma_start %in% c(0.1))
 
-model_results_0.99_50 <- model_results_0.99 %>%
+model_results_0.8_50 <- model_results_0.8 %>%
   filter(gamma_start %in% c(0.5))
 
-model_results_0.99_100 <- model_results_0.99 %>%
+model_results_0.8_100 <- model_results_0.8 %>%
   filter(gamma_start %in% c(1))
 
 ### Average by Year 
